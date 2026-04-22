@@ -69,13 +69,20 @@ function logRequest(request) {
  * @returns {Promise<Response>}
  */
 async function passThrough(request) {
-  // Your Hugging Face Space URL (ends in .hf.space)
-  const backend = "https://hf.space";
-  
-  if (request.url.includes(self.location.origin)) return fetch(request);
+  // Replace the link below with your ACTUAL Hugging Face link from Step 1
+  const backend = "https://lucasli741-research-tool-v2.hf.space";
 
+  // Don't proxy your own GitHub files
+  if (request.url.includes(self.location.origin)) {
+    return fetch(request);
+  }
+
+  // Wrap the request
   const proxiedUrl = backend + encodeURIComponent(request.url);
-  return fetch(proxiedUrl);
+  
+  return fetch(proxiedUrl, {
+    mode: 'cors'
+  });
 }
 /**
  * Broadcasts a structured log message to all controlled clients
