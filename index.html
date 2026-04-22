@@ -20,7 +20,7 @@
     <script>
         // 1. Register the Service Worker (the brain of the proxy)
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
+            navigator.serviceWorker.register('sw.js')
                 .then(() => console.log("Proxy System: ACTIVE"))
                 .catch(err => console.log("Proxy System: ERROR", err));
         }
