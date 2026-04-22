@@ -69,18 +69,14 @@ function logRequest(request) {
  * @returns {Promise<Response>}
  */
 async function passThrough(request) {
-  try {
-    return await fetch(request);
-  } catch (err) {
-    console.error(`[SW] Network error for ${request.url}:`, err);
-    return new Response('Network error – Service Worker could not reach the server.', {
-      status: 503,
-      statusText: 'Service Unavailable',
-      headers: { 'Content-Type': 'text/plain' },
-    });
-  }
-}
+  // Your Hugging Face Space URL (ends in .hf.space)
+  const backend = "https://hf.space";
+  
+  if (request.url.includes(self.location.origin)) return fetch(request);
 
+  const proxiedUrl = backend + encodeURIComponent(request.url);
+  return fetch(proxiedUrl);
+}
 /**
  * Broadcasts a structured log message to all controlled clients
  * so pages can optionally display live request logs.
